@@ -1,0 +1,73 @@
+{
+  "epoch": 366,
+  "denominator_mode": "root_total_weight",
+  "restitution_policy": "statistical_invalidations_only",
+  "recommended_numerator": "confirmation_weight",
+  "root_total_weight": 415488,
+  "member_count": 29,
+  "theoretical_reward_ngonka": 271585585901851,
+  "theoretical_reward_gonka": "271585.585902",
+  "actual_paid_pool_ngonka": 153948045686074,
+  "actual_paid_pool_gonka": "153948.045686",
+  "poc_start_block_height": "5644461",
+  "effective_block_height": "5644861",
+  "last_block_height": "5660251",
+  "scan_window": [
+    350,
+    380
+  ],
+  "stat_invalidation_epochs_in_scan": [
+    {
+      "epoch": 366,
+      "count": 2,
+      "addresses": [
+        "gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv",
+        "gonka16dgkvx7mh609ntkzknckwaskgq9lcdp86j0skk"
+      ]
+    }
+  ],
+  "excluded_count": 7,
+  "stat_invalidation_count": 2,
+  "failed_confirmation_poc_count": 5,
+  "recommended_total_ngonka": 65180462177908,
+  "recommended_total_gonka": "65180.462178",
+  "weight_alternative_total_ngonka": 68202960419038,
+  "weight_alternative_total_gonka": "68202.960419",
+  "proposal": {
+    "id": "96",
+    "title": "Stabilize in-epoch invalid SPRT on small samples",
+    "status": "PROPOSAL_STATUS_PASSED",
+    "expedited": true,
+    "proposer": "gonka1y2a9p56kv044327uycmqdexl7zs82fs5ryv5le",
+    "submit_time": "2026-08-20T18:04:19.550951169Z",
+    "voting_end_time": "2026-08-21T06:04:19.550951169Z",
+    "summary": "In-epoch SPRT on invalid inferences is not stable on a small sample. A few invalids can trip it before the epoch has enough data. This proposal raises invalidation_h_threshold to 40 and sets bad_participant_invalidation_rate to 18e-2. At large sample sizes the threshold is about 10% invalid, so participants below that are not punished. Higher rates still trigger, 18% in about 360 samples and 12% in about 1650. Small samples cannot trigger it. At least 32 flagged invalids are required, and at 500 samples the observed rate must exceed 16%. Downtime SPRT is unused and is turned off. Epoch-end stats tests still work."
+  },
+  "live_validation_params": {
+    "invalidation_h_threshold": {
+      "value": "4",
+      "exponent": 1
+    },
+    "bad_participant_invalidation_rate": {
+      "value": "18",
+      "exponent": -2
+    }
+  },
+  "affected": [
+    {
+      "address": "gonka16dgkvx7mh609ntkzknckwaskgq9lcdp86j0skk",
+      "recommended_lost_gonka": "37609.316890"
+    },
+    {
+      "address": "gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv",
+      "recommended_lost_gonka": "27571.145288"
+    }
+  ],
+  "excluded_not_this_bug": [
+    "gonka1f0u3y2wneer8zhz3ypw4x54h38cpa0qsy8ts3e",
+    "gonka1fc9tzt83dgrqswlgay4668cuqjrk7zsqks2vm2",
+    "gonka1ueylw8hrlp5taqu4dy5zaxy0k82ya4r9trzzwy",
+    "gonka1aw77zuy536tufqd56zfq6ev3234u5ftty0zkte",
+    "gonka1a3pkge3g33v3zdkq7qmycpjwpulms6ejt8z00f"
+  ]
+}

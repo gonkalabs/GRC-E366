@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "address": "gonka1tlvg4kjx7ljd5thgd5fkgh39q6lu8cmxupktgg",
+      "epoch_index": "377",
+      "reason": "failed_confirmation_poc",
+      "exclusion_block_height": "5817802"
+    },
+    {
+      "address": "gonka1lrlzts7hts8zefc8da27sef8f7mdmjy9s3vvws",
+      "epoch_index": "377",
+      "reason": "failed_confirmation_poc",
+      "exclusion_block_height": "5817802"
+    }
+  ]
+}

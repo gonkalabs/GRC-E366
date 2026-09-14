@@ -1,0 +1,20 @@
+[14:16:12] rpc=http://node2.gonka.ai:8000 epoch=366 scan=350..380
+[14:16:13] epoch 366 members=29 total_weight=415488 theoretical=271585.585902 GNK exclusions=7
+[14:16:13] live SPRT params invalidation_h_threshold={'value': '4', 'exponent': 1} bad_participant_invalidation_rate={'value': '18', 'exponent': -2}
+[14:16:19] actual paid pool in epoch 366: 153948.045686 GNK
+[14:16:19] scanning statistical_invalidations in 350..380
+[14:16:24]   epoch 366: 2 statistical_invalidations
+[14:16:27] proposal 96 status=PROPOSAL_STATUS_PASSED expedited=True title=Stabilize in-epoch invalid SPRT on small samples
+[14:16:27]   failed_confirmation_poc gonka1f0u3y2wneer8zhz3ypw4x54h38cpa0qsy8ts3e w=8420 cw=0 inval=0.82% actual=0.000000 lost_cw=0.000000
+[14:16:28]   failed_confirmation_poc gonka1fc9tzt83dgrqswlgay4668cuqjrk7zsqks2vm2 w=1869 cw=0 inval=2.04% actual=0.000000 lost_cw=0.000000
+[14:16:28]   statistical_invalidations gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv w=43786 cw=42180 inval=6.02% actual=0.000000 lost_cw=27571.145288
+[14:16:28]   statistical_invalidations gonka16dgkvx7mh609ntkzknckwaskgq9lcdp86j0skk w=60555 cw=57537 inval=2.13% actual=0.000000 lost_cw=37609.316890
+[14:16:29]   failed_confirmation_poc gonka1ueylw8hrlp5taqu4dy5zaxy0k82ya4r9trzzwy w=954 cw=0 inval=0.00% actual=0.000000 lost_cw=0.000000
+[14:16:29]   failed_confirmation_poc gonka1aw77zuy536tufqd56zfq6ev3234u5ftty0zkte w=7772 cw=0 inval=0.22% actual=0.000000 lost_cw=0.000000
+[14:16:30]   failed_confirmation_poc gonka1a3pkge3g33v3zdkq7qmycpjwpulms6ejt8z00f w=619 cw=0 inval=7.50% actual=0.000000 lost_cw=0.000000
+[14:16:30]   neighbor e365 gonka1scskt6wpnjnu... actual=20769.037248 pred_cw=21861.950889 delta=-1092.913641
+[14:16:30]   neighbor e365 gonka16dgkvx7mh609... actual=30439.746651 pred_cw=30439.746651 delta=0.000000
+[14:16:31]   neighbor e366 gonka1scskt6wpnjnu... actual=0.000000 pred_cw=27571.145288 delta=-27571.145288
+[14:16:31]   neighbor e366 gonka16dgkvx7mh609... actual=0.000000 pred_cw=37609.316890 delta=-37609.316890
+[14:16:31]   neighbor e367 gonka1scskt6wpnjnu... actual=29034.990116 pred_cw=34158.329473 delta=-5123.339357
+[14:16:32]   neighbor e367 gonka16dgkvx7mh609... actual=50484.616744 pred_cw=50484.616744 delta=0.000000

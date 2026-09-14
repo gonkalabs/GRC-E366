@@ -1,0 +1,474 @@
+{
+  "epoch_group_data": {
+    "poc_start_block_height": "5644461",
+    "epoch_group_id": "1429",
+    "epoch_policy": "gonka17c0f8lw780k837tt4cvu0efv54sn5sm8zkg4ax9fj4s7nk4lptcqrytekc",
+    "effective_block_height": "5644861",
+    "last_block_height": "5660251",
+    "member_seed_signatures": [
+      {
+        "member_address": "gonka1346p2h8dn4kp98c5e93k5q64g0h7vxjxnd55fh",
+        "signature": "ec8033fd890f700703cbee3d563c209a2a05baeac58fc1fb1fdbbaec383e7ac95ec8e097f21d2c51235a05ddbb46eba9dcaea1c9efcd968a39a5c05b310de1cb"
+      },
+      {
+        "member_address": "gonka168rtjfkszuhcggg4dfyse4yh7xn9zwfglnkns2",
+        "signature": "9354480b8c4f02e6f6d7c414334ad6a011fa5a4946321f860227244a0327882a2fa35144e30049bea187f8d549ef6e998b76fe73240697aa57dc1936ada5e34a"
+      },
+      {
+        "member_address": "gonka16dgkvx7mh609ntkzknckwaskgq9lcdp86j0skk",
+        "signature": "28c89922c007020ff22a991e2567c430469af29595e6be765d244bcedff298be067a2843bedb96e304859febb8a2552967de4474182163d83f578a5634bf3a3f"
+      },
+      {
+        "member_address": "gonka1830lqug50lse998x2lakk4pj5ypfumz5pasz0y",
+        "signature": "0781f253ea1c2d51bcd09b208d04030ca3ef46b5e4060c81d3243ca8488dc3ad01682707b3aa91dd010fb88f749f3f831640f6a454859fb6ab98ba1a82a45924"
+      },
+      {
+        "member_address": "gonka1aw77zuy536tufqd56zfq6ev3234u5ftty0zkte",
+        "signature": "512fe1da05b15a9bac7377703120c9ce2ee13871335c3dbfcaeb5ee909fc898c3b46c551b1cba84b1937f3ad58433b3b0aaa5f8ed41147e9877653934de417ed"
+      },
+      {
+        "member_address": "gonka1f0u3y2wneer8zhz3ypw4x54h38cpa0qsy8ts3e",
+        "signature": "db98d3704b110d67371f880ae464aa785bbb43c8668a136689f1f8aa2db4660e679883c3894a8857b2312a85a01aabc351a765be3fc9b2ccf60d97d4941ec109"
+      },
+      {
+        "member_address": "gonka1gyk0aahvr3qeju4zx0nplfreej6cy4jjk8svc5",
+        "signature": "dcfe5f6c4d639dde20b3860ea811a701b9100faeb9de1f60498b8951589850046b47a2e7c282edeef88d795e7dfae858e9640569f083b730c6a5fa6acfe8f045"
+      },
+      {
+        "member_address": "gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv",
+        "signature": "9a4f98bab0e390bf5973ebf9cadf450f118e7cfd40a737a4046ecffa67a312495e25a7826c8e78a0cdd3515765d193f5cdb1ee09470543237253f6903b23c796"
+      },
+      {
+        "member_address": "gonka1u60wtn9dhadweeuq2gywcpx34fpfnuhmu7w0qq",
+        "signature": "3fc82db7c85c2df5a61e18c1e5854113953a78399ca38d011acd7054f1fd72f275ea417336d2a85865c9d3066b52587d9a0a579b7d24917b3d3302eaf616abd2"
+      },
+      {
+        "member_address": "gonka10mmdjau4dnj8krs7sh7t7635ttnmq9u3vqgz09",
+        "signature": "0d86d178946ab64b36cb282ce55b5edc07d937e38d5a8af1c22c4074669f3cd2044342dd8bfcd58fc8fee7525baa31defe9c6c72c76adbacb8fba45ac32d924c"
+      },
+      {
+        "member_address": "gonka10thh6z0wvq9c05j4z3f9qtpxxedruqn5ae350k",
+        "signature": "13e7cfbf8be0541a90c4263321b88816155ec0021f7c3c668205e07ab1b13237038b4f7861e890b353c491b86477e0770ac6498534d0a8894a5bb60004ce05d1"
+      },
+      {
+        "member_address": "gonka1a3pkge3g33v3zdkq7qmycpjwpulms6ejt8z00f",
+        "signature": "09a1cd5f9a458e6f7bb4792e7d1991c48210317a43e9480970de6a7eb4bdf05228fc048e13ce30c6ec464e850615b5a6533d2dbc3d5961733b3bc08e4229b8f3"
+      },
+      {
+        "member_address": "gonka1dkl4mah5erqggvhqkpc8j3qs5tyuetgdy552cp",
+        "signature": "2dc7776a35042833458ac314ab392e83ddcf11028785d229e8cc9148fa32bbb2639a0265a23286e7b7bd924768818dbd9000e1aa30e42d9266dadc24137e96b7"
+      },
+      {
+        "member_address": "gonka1fc9tzt83dgrqswlgay4668cuqjrk7zsqks2vm2",
+        "signature": "6982957f8c59087affed598f137b22e7e2fe58a4b46f91705dd044675947353c2269d8499bf82838b38f0eb40537d2deb7a6b7c641a603f273023792382712c5"
+      },
+      {
+        "member_address": "gonka1gvrrhjmy4w4mayvs2s5l23edj8ertcmtd2v4zr",
+        "signature": "be42fb7bb8922f777067117dd4d736d342611675a63f18282e8906e131c36e3f712280c5ed9e1467bc36c71c16a6b0d8293b45b468a399dfa87dda05ba5ac312"
+      },
+      {
+        "member_address": "gonka1hvhfcc23q0j49zjt372ymgkfsk9mnkqjj3l42x",
+        "signature": "9ad0615ce63749011e033091fea8c979f37f946f24ddcc5ff65c8da624a1e39e6e2399c16782faecdd5f69a8f088134022e91d50e6d2a9cac5bab1bf1a4d9fb6"
+      },
+      {
+        "member_address": "gonka1kvmerzu64094dt9t62ea0cp75larh39ulzldum",
+        "signature": "bc915911974a3daf82798e1c0202bfaf1364248919270daef07b46cbbafa31d95488f084f28d74f00d49d68306cee1a959531eab204ea2a76f28f991b70e981b"
+      },
+      {
+        "member_address": "gonka1kx9mca3xm8u8ypzfuhmxey66u0ufxhs7nm6wc5",
+        "signature": "6118e68d77448d73da2c786457adea50c8c454c500a0763a3f8e096e49badb2057c0ead9ecbe3e0a6b822dd4795d34e79ea3cd9e2d57c5a9a6e9ec4ec4f2db00"
+      },
+      {
+        "member_address": "gonka1m58jds005cttwq2vt0p7yk6vy2aqg254cqqppf",
+        "signature": "81a783e492436228bcf7e27e0cf7e4c14e7d8a9222c4d89e47dedc0fe0bfe7d11a81a9d3ed88612c700496b8a013a8a0bcf8d59767fc5fb98359b95147797220"
+      },
+      {
+        "member_address": "gonka1p2lhgng7tcqju7emk989s5fpdr7k2c3ek6h26m",
+        "signature": "113b8ce7ff4103c7861a59f848415bbe76eae4b09b40ccd5a110bfd24332e5d11e73d115c731b0c53f9b28b6eed99232ec3d9751ba2b4fd0bae00dad98189a1d"
+      },
+      {
+        "member_address": "gonka1qwfrtz9c7kcrfkrrlne2pkcye74mj6ce33xdkl",
+        "signature": "1341721442d04b803441f26e60c4b42633b0fa37536e23fec23b50ce24a5e5517ceb4a57ccb15117fbba39f428ef1e66f237c138a0000a7101a165d09487e453"
+      },
+      {
+        "member_address": "gonka1t0psqlz8fzhlqnaresvk5vxfmgv0te23mnwdad",
+        "signature": "345b7498d754be61f67ec5c0542befd6cbeeaf614ed98eba4ab623ecf51421856ff54db80e069d5cc2ef5bfa3a727c91dfa713740e7e3cb84353139f07570876"
+      },
+      {
+        "member_address": "gonka1tlvg4kjx7ljd5thgd5fkgh39q6lu8cmxupktgg",
+        "signature": "d5de7b364138952496734b53b9dfab4b439a6c569e85e9d18820a51b61872a09666ea834b644daf75cc135fb633652700b23d1492413e9311ab70319d782ceef"
+      },
+      {
+        "member_address": "gonka1ts6k67zt064z87rx9hztm93cd3yh5mkqje6z4c",
+        "signature": "20a56d721291c72d349425d0fcbbe3167a4334460d235b07f11bf1620778d82055a5277b3986d847c97fd35070e24271b15c43126d63c4e933fcb498e0bb992b"
+      },
+      {
+        "member_address": "gonka1ueylw8hrlp5taqu4dy5zaxy0k82ya4r9trzzwy",
+        "signature": "dc1ad88f3d099eca583a922a7ce89f9edcec0bf27a99d483323e7638fc82a85d2912057f59efb0c36591fbeeb316e6ddb8e360a8eb830e748b1245712468b732"
+      },
+      {
+        "member_address": "gonka1w29nvdy6caqtrw30whz9h6ghl0xszwh3egndah",
+        "signature": "c748e745dab566e4bc1bcd393522f8db35f6570cd26baf33cacf25f9c33de53a7d5bf44c6724ccd9cb3406072a23ecfc97b0e46fff020aa9f3b01764e2e17630"
+      },
+      {
+        "member_address": "gonka1y2a9p56kv044327uycmqdexl7zs82fs5ryv5le",
+        "signature": "fbf4e62a24bad87c6db6ec07844a81a8dce3b8b5eff31b7ce29d2961a76dc520582062f91af710425ced88b36c05679f9fb2dfb7f37c4bcf535392f05fcf36a8"
+      },
+      {
+        "member_address": "gonka1ym3np7guxart483yfdxnlztuazx22cjt0e4a2p",
+        "signature": "8df190ec71c12e3aaa822142410428547d3747262d6e38922677efbd466b9b2034d8cd0e317dd418004c5225af5734547f407d98e4d760b13b9bd016dfc35f24"
+      },
+      {
+        "member_address": "gonka1zktn8j65wlys8a8e38hqhf4y3x6m4x04zskkrx",
+        "signature": "218d9787e2f0072f50a465d93ba5e2ea4e996927ab3f012c6408e569eacc2952305e91620abec2d0f26faaaec71c3f1cb447d2284ff50dd5be4f439edff008f8"
+      }
+    ],
+    "validation_weights": [
+      {
+        "member_address": "gonka1346p2h8dn4kp98c5e93k5q64g0h7vxjxnd55fh",
+        "weight": "801",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "801",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka168rtjfkszuhcggg4dfyse4yh7xn9zwfglnkns2",
+        "weight": "11935",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "11849",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka16dgkvx7mh609ntkzknckwaskgq9lcdp86j0skk",
+        "weight": "60555",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "57537",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1830lqug50lse998x2lakk4pj5ypfumz5pasz0y",
+        "weight": "8598",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "7028",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1aw77zuy536tufqd56zfq6ev3234u5ftty0zkte",
+        "weight": "7772",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "0",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1f0u3y2wneer8zhz3ypw4x54h38cpa0qsy8ts3e",
+        "weight": "8420",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "0",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1gyk0aahvr3qeju4zx0nplfreej6cy4jjk8svc5",
+        "weight": "662",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "662",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv",
+        "weight": "43786",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "42180",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1u60wtn9dhadweeuq2gywcpx34fpfnuhmu7w0qq",
+        "weight": "28590",
+        "reputation": 10,
+        "ml_nodes": [],
+        "confirmation_weight": "28590",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka10mmdjau4dnj8krs7sh7t7635ttnmq9u3vqgz09",
+        "weight": "4128",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "3984",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka10thh6z0wvq9c05j4z3f9qtpxxedruqn5ae350k",
+        "weight": "14528",
+        "reputation": 47,
+        "ml_nodes": [],
+        "confirmation_weight": "8592",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1a3pkge3g33v3zdkq7qmycpjwpulms6ejt8z00f",
+        "weight": "619",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "0",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1dkl4mah5erqggvhqkpc8j3qs5tyuetgdy552cp",
+        "weight": "2400",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "2400",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1fc9tzt83dgrqswlgay4668cuqjrk7zsqks2vm2",
+        "weight": "1869",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "0",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1gvrrhjmy4w4mayvs2s5l23edj8ertcmtd2v4zr",
+        "weight": "107037",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "84847",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1hvhfcc23q0j49zjt372ymgkfsk9mnkqjj3l42x",
+        "weight": "1230",
+        "reputation": 23,
+        "ml_nodes": [],
+        "confirmation_weight": "734",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1kvmerzu64094dt9t62ea0cp75larh39ulzldum",
+        "weight": "68345",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "67074",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1kx9mca3xm8u8ypzfuhmxey66u0ufxhs7nm6wc5",
+        "weight": "7140",
+        "reputation": 0,
+        "ml_nodes": [],
+        "confirmation_weight": "7140",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1m58jds005cttwq2vt0p7yk6vy2aqg254cqqppf",
+        "weight": "1178",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "1178",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1p2lhgng7tcqju7emk989s5fpdr7k2c3ek6h26m",
+        "weight": "1711",
+        "reputation": 0,
+        "ml_nodes": [],
+        "confirmation_weight": "1711",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1qwfrtz9c7kcrfkrrlne2pkcye74mj6ce33xdkl",
+        "weight": "971",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "969",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1t0psqlz8fzhlqnaresvk5vxfmgv0te23mnwdad",
+        "weight": "8180",
+        "reputation": 33,
+        "ml_nodes": [],
+        "confirmation_weight": "8180",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1tlvg4kjx7ljd5thgd5fkgh39q6lu8cmxupktgg",
+        "weight": "4060",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "3957",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1ts6k67zt064z87rx9hztm93cd3yh5mkqje6z4c",
+        "weight": "8120",
+        "reputation": 0,
+        "ml_nodes": [],
+        "confirmation_weight": "7053",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1ueylw8hrlp5taqu4dy5zaxy0k82ya4r9trzzwy",
+        "weight": "954",
+        "reputation": 13,
+        "ml_nodes": [],
+        "confirmation_weight": "0",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1w29nvdy6caqtrw30whz9h6ghl0xszwh3egndah",
+        "weight": "395",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "395",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1y2a9p56kv044327uycmqdexl7zs82fs5ryv5le",
+        "weight": "4589",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "4469",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1ym3np7guxart483yfdxnlztuazx22cjt0e4a2p",
+        "weight": "3070",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "3011",
+        "voting_power": "0"
+      },
+      {
+        "member_address": "gonka1zktn8j65wlys8a8e38hqhf4y3x6m4x04zskkrx",
+        "weight": "3845",
+        "reputation": 100,
+        "ml_nodes": [],
+        "confirmation_weight": "3753",
+        "voting_power": "0"
+      }
+    ],
+    "unit_of_compute_price": "100",
+    "number_of_requests": "0",
+    "previous_epoch_requests": "0",
+    "validation_params": {
+      "false_positive_rate": {
+        "value": "5",
+        "exponent": -2
+      },
+      "min_ramp_up_measurements": 10,
+      "pass_value": {
+        "value": "99",
+        "exponent": -2
+      },
+      "min_validation_average": {
+        "value": "1",
+        "exponent": -2
+      },
+      "max_validation_average": {
+        "value": "1",
+        "exponent": 0
+      },
+      "expiration_blocks": "150",
+      "epochs_to_max": "30",
+      "full_validation_traffic_cutoff": "10000",
+      "min_validation_halfway": {
+        "value": "5",
+        "exponent": -2
+      },
+      "min_validation_traffic_cutoff": "100",
+      "miss_percentage_cutoff": {
+        "value": "1",
+        "exponent": -2
+      },
+      "miss_requests_penalty": {
+        "value": "1",
+        "exponent": 0
+      },
+      "timestamp_expiration": "300",
+      "timestamp_advance": "30",
+      "estimated_limits_per_block_kb": "0",
+      "invalid_reputation_preserve": {
+        "value": "0",
+        "exponent": 0
+      },
+      "bad_participant_invalidation_rate": {
+        "value": "1",
+        "exponent": -1
+      },
+      "invalidation_h_threshold": {
+        "value": "4",
+        "exponent": 0
+      },
+      "downtime_good_percentage": {
+        "value": "98",
+        "exponent": -2
+      },
+      "downtime_bad_percentage": {
+        "value": "99",
+        "exponent": -2
+      },
+      "downtime_h_threshold": {
+        "value": "1",
+        "exponent": 2
+      },
+      "downtime_reputation_preserve": {
+        "value": "0",
+        "exponent": 0
+      },
+      "quick_failure_threshold": {
+        "value": "1",
+        "exponent": -6
+      },
+      "binom_test_p0": {
+        "value": "1",
+        "exponent": -1
+      },
+      "claim_validation_enabled": false,
+      "logprobs_mode": "processed_logprobs"
+    },
+    "total_weight": "415488",
+    "model_id": "",
+    "sub_group_models": [
+      "MiniMaxAI/MiniMax-M2.7",
+      "moonshotai/Kimi-K2.6",
+      "zai-org/GLM-5.2-FP8",
+      "deepseek-ai/DeepSeek-V4-Flash-0731"
+    ],
+    "epoch_index": "366",
+    "model_snapshot": null,
+    "total_throughput": "0",
+    "confirmation_weight_scales": [
+      {
+        "model_id": "MiniMaxAI/MiniMax-M2.7",
+        "weight_scale_factor": {
+          "value": "3024",
+          "exponent": -4
+        }
+      },
+      {
+        "model_id": "deepseek-ai/DeepSeek-V4-Flash-0731",
+        "weight_scale_factor": {
+          "value": "214",
+          "exponent": -3
+        }
+      },
+      {
+        "model_id": "moonshotai/Kimi-K2.6",
+        "weight_scale_factor": {
+          "value": "945",
+          "exponent": -3
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "address": "gonka10thh6z0wvq9c05j4z3f9qtpxxedruqn5ae350k",
+      "epoch_index": "354",
+      "reason": "failed_confirmation_poc",
+      "exclusion_block_height": "5465366"
+    }
+  ]
+}
