@@ -14,18 +14,19 @@ Detection:
   reason == statistical_invalidations. Default scan window 350..380 is used
   to show the reason appears only in epoch 366.
 
-Compensation, recommended:
-  lost_ngonka = confirmation_weight * fixedEpochReward(E) / rootTotalWeight(E)
-                - actual_rewarded_ngonka
+Compensation:
+  gross_cw = confirmation_weight * fixedEpochReward(E) / rootTotalWeight(E)
+             - actual_rewarded_ngonka
 
   rootTotalWeight(E) is parent EpochGroupData.total_weight from
   epoch_group_data/{E} with model_id == "".
   fixedEpochReward(E) is initial * exp(decay_rate * (E - genesis)) from
   inference.params.bitcoin_reward_params.
 
-  confirmation_weight is the numerator the chain uses for healthy payouts.
-  The script also prints the start-of-epoch weight alternative so GRC can
-  compare it with Case #3 style.
+  For epoch 366 the chain-exact direct amounts then apply the 5% Kimi
+  delegation from gonka1scskt to gonka1gvrrhj. scskt keeps 95% of its CW
+  share. The other 5%, plus the 30% power-cap delta on gvrrhj, is an
+  indirect row. Paying both the full CW share and that 5% would double count.
 
 Outputs (./output/):
   - e366_per_participant.csv   : STAT victims and recommended amounts
@@ -58,6 +59,17 @@ DEFAULT_RPC = "http://node2.gonka.ai:8000"
 STAT_REASON = "statistical_invalidations"
 PROPOSAL_ID = 96
 NG = Decimal(10) ** 9
+# Epoch 366 delegation snapshot: 5% of scskt reward weight transfers to gvrrhj
+# (Kimi delegation). Neighbor epoch 365 pays scskt at 0.9500 of CW share.
+DELEGATOR = "gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv"
+DELEGATEE = "gonka1gvrrhjmy4w4mayvs2s5l23edj8ertcmtd2v4zr"
+DELEGATION_SHARE = Decimal("0.05")
+# Archive estimate_bitcoin_reward: gvrrhj reward weight falls 84847 -> 74370
+# in the scskt exclusion block, because the 30% cap is checked only on ACTIVE
+# hosts. Public nodes do not serve that historical query; the weights are the
+# reviewed chain observation and the GNK delta is computed here.
+CAP_WEIGHT_BEFORE = 84847
+CAP_WEIGHT_AFTER = 74370
 HTTP_TIMEOUT = 20
 HTTP_RETRIES = 3
 
@@ -156,7 +168,15 @@ def members_of(grp: dict) -> dict[str, dict]:
 
 
 def write_csv(path: str, rows: list[dict]) -> None:
-    fields = list(rows[0].keys()) if rows else ["address"]
+    fields: list[str] = []
+    seen = set()
+    for row in rows:
+        for key in row:
+            if key not in seen:
+                seen.add(key)
+                fields.append(key)
+    if not fields:
+        fields = ["address"]
     with open(path, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=fields)
         w.writeheader()
@@ -269,6 +289,63 @@ def main() -> int:
     victims = [r for r in exclusion_rows if r["reason"] == STAT_REASON]
     excluded_other = [r for r in exclusion_rows if r["reason"] != STAT_REASON]
 
+    epoch_vp = grp.get("validation_params") or {}
+    log(
+        f"epoch-snapshot SPRT bad_rate={epoch_vp.get('bad_participant_invalidation_rate')} "
+        f"H={epoch_vp.get('invalidation_h_threshold')}"
+    )
+
+    delegation_transfer_weight = 0
+    for row in victims:
+        row["delegation_share"] = "0"
+        row["delegation_transfer_weight"] = 0
+        row["reward_weight_after_delegation"] = row["confirmation_weight"]
+        row["naive_cw_lost_ngonka"] = row["lost_by_confirmation_weight_ngonka"]
+        row["naive_cw_lost_gonka"] = row["lost_by_confirmation_weight_gonka"]
+        if args.epoch == 366 and row["address"] == DELEGATOR:
+            transfer = int((Decimal(row["confirmation_weight"]) * DELEGATION_SHARE).to_integral_value())
+            kept = row["confirmation_weight"] - transfer
+            kept_share = share_ngonka(kept, tw, er)
+            lost = max(0, kept_share - row["actual_rewarded_ngonka"])
+            delegation_transfer_weight = transfer
+            row["delegation_share"] = str(DELEGATION_SHARE)
+            row["delegation_transfer_weight"] = transfer
+            row["reward_weight_after_delegation"] = kept
+            row["recommended_lost_ngonka"] = lost
+            row["recommended_lost_gonka"] = gonka(lost)
+            log(f"  delegation {DELEGATOR[:18]} keeps {kept} of cw, transfer {transfer} -> {DELEGATEE[:18]}")
+
+    indirect = None
+    if args.epoch == 366 and delegation_transfer_weight:
+        cap_before = share_ngonka(CAP_WEIGHT_BEFORE, tw, er)
+        cap_after = share_ngonka(CAP_WEIGHT_AFTER, tw, er)
+        cap_ng = max(0, cap_before - cap_after)
+        deleg_ng = share_ngonka(delegation_transfer_weight, tw, er)
+        gv = members.get(DELEGATEE) or {}
+        gv_rec = performance(args.rpc, args.epoch, DELEGATEE)
+        indirect = {
+            "address": DELEGATEE,
+            "role": "indirect_delegatee_and_power_cap",
+            "eligible_if": "GRC accepts indirect loss",
+            "weight": int(gv.get("weight") or 0),
+            "confirmation_weight": int(gv.get("confirmation_weight") or 0),
+            "actual_rewarded_ngonka": int(gv_rec.get("rewarded_coins") or 0),
+            "actual_rewarded_gonka": gonka(int(gv_rec.get("rewarded_coins") or 0)),
+            "cap_weight_before": CAP_WEIGHT_BEFORE,
+            "cap_weight_after": CAP_WEIGHT_AFTER,
+            "cap_loss_ngonka": cap_ng,
+            "cap_loss_gonka": gonka(cap_ng),
+            "delegation_in_weight": delegation_transfer_weight,
+            "delegation_in_ngonka": deleg_ng,
+            "delegation_in_gonka": gonka(deleg_ng),
+            "recommended_lost_ngonka": cap_ng + deleg_ng,
+            "recommended_lost_gonka": gonka(cap_ng + deleg_ng),
+        }
+        log(
+            f"  indirect {DELEGATEE[:18]} cap={indirect['cap_loss_gonka']} "
+            f"deleg_in={indirect['delegation_in_gonka']} total={indirect['recommended_lost_gonka']}"
+        )
+
     neighbor_rows = []
     for epoch in (args.epoch - 1, args.epoch, args.epoch + 1):
         ngrp = epoch_group(args.rpc, epoch)
@@ -306,13 +383,14 @@ def main() -> int:
             )
 
     recommended_ng = sum(r["recommended_lost_ngonka"] for r in victims)
+    naive_ng = sum(r["naive_cw_lost_ngonka"] for r in victims)
     weight_ng = sum(r["lost_by_weight_ngonka"] for r in victims)
+    indirect_ng = indirect["recommended_lost_ngonka"] if indirect else 0
 
     summary = {
         "epoch": args.epoch,
         "denominator_mode": "root_total_weight",
-        "restitution_policy": "statistical_invalidations_only",
-        "recommended_numerator": "confirmation_weight",
+        "restitution_policy": "statistical_invalidations_plus_indirect_delegatee",
         "root_total_weight": tw,
         "member_count": len(members),
         "theoretical_reward_ngonka": er,
@@ -327,10 +405,22 @@ def main() -> int:
         "excluded_count": len(exclusion_rows),
         "stat_invalidation_count": len(victims),
         "failed_confirmation_poc_count": len(excluded_other),
-        "recommended_total_ngonka": recommended_ng,
-        "recommended_total_gonka": gonka(recommended_ng),
+        "recommended_numerator": "confirmation_weight_after_delegation",
+        "naive_cw_total_ngonka": naive_ng,
+        "naive_cw_total_gonka": gonka(naive_ng),
+        "direct_total_ngonka": recommended_ng,
+        "direct_total_gonka": gonka(recommended_ng),
+        "indirect_total_ngonka": indirect_ng,
+        "indirect_total_gonka": gonka(indirect_ng),
+        "recommended_total_ngonka": recommended_ng + indirect_ng,
+        "recommended_total_gonka": gonka(recommended_ng + indirect_ng),
         "weight_alternative_total_ngonka": weight_ng,
         "weight_alternative_total_gonka": gonka(weight_ng),
+        "epoch_validation_params": {
+            "invalidation_h_threshold": epoch_vp.get("invalidation_h_threshold"),
+            "bad_participant_invalidation_rate": epoch_vp.get("bad_participant_invalidation_rate"),
+            "note": "Frozen on epoch_group_data/366. Pre-#96 on-chain bad rate is 0.10, not the 0.20 code default.",
+        },
         "proposal": {
             "id": str(proposal.get("id") or args.proposal_id),
             "title": proposal.get("title"),
@@ -353,6 +443,7 @@ def main() -> int:
             for r in sorted(victims, key=lambda x: -x["recommended_lost_ngonka"])
         ],
         "excluded_not_this_bug": [r["address"] for r in excluded_other],
+        "indirect": indirect,
     }
 
     victim_csv = [
@@ -369,6 +460,10 @@ def main() -> int:
             "invalid_rate": r["invalid_rate"],
             "missed_requests": r["missed_requests"],
             "actual_rewarded_gonka": r["actual_rewarded_gonka"],
+            "naive_cw_lost_gonka": r["naive_cw_lost_gonka"],
+            "delegation_share": r["delegation_share"],
+            "delegation_transfer_weight": r["delegation_transfer_weight"],
+            "reward_weight_after_delegation": r["reward_weight_after_delegation"],
             "recommended_lost_gonka": r["recommended_lost_gonka"],
             "weight_alternative_lost_gonka": r["lost_by_weight_gonka"],
             "root_total_weight": r["root_total_weight"],
@@ -379,6 +474,8 @@ def main() -> int:
     ]
 
     write_csv(os.path.join(OUT_DIR, "e366_per_participant.csv"), victim_csv)
+    if indirect:
+        write_csv(os.path.join(OUT_DIR, "e366_indirect.csv"), [indirect])
     write_csv(os.path.join(OUT_DIR, "e366_exclusions.csv"), exclusion_rows)
     write_csv(os.path.join(OUT_DIR, "e366_neighbor_epochs.csv"), neighbor_rows)
     with open(os.path.join(OUT_DIR, "e366_summary.json"), "w", encoding="utf-8") as f:
@@ -398,8 +495,10 @@ def main() -> int:
             f"{r['recommended_lost_gonka']:>12}"
         )
     print()
-    print(f"Recommended (cw * theoretical / root_total_weight): {summary['recommended_total_gonka']} GNK")
-    print(f"Alt (weight * theoretical / root_total_weight):     {summary['weight_alternative_total_gonka']} GNK")
+    print(f"Naive CW share (first published draft):          {summary['naive_cw_total_gonka']} GNK")
+    print(f"Direct, after 5% delegation:                     {summary['direct_total_gonka']} GNK")
+    print(f"Indirect (cap + delegated 5%), needs GRC vote:   {summary['indirect_total_gonka']} GNK")
+    print(f"Chain-exact total if indirect is accepted:       {summary['recommended_total_gonka']} GNK")
     print(f"Wrote {OUT_DIR}")
     return 0
 

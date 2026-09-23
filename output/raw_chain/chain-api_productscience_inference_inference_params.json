@@ -382,6 +382,11 @@
           "name": "v4.1",
           "binary": "https://github.com/gonka-ai/gonka/releases/download/release%2Fdevshard%2Fv4.1.0/devshardd.zip",
           "sha256": "69e58e6b6c124fc218d3ed1e38d7853c0a8ce20df660d348fc28ccd249a1ccf1"
+        },
+        {
+          "name": "v5",
+          "binary": "https://github.com/gonka-ai/gonka/releases/download/devshard%2Fv5.0.1/devshardd.zip",
+          "sha256": "e4dcde3990a3af62efcf6af5da8557b05ed3a98ede4a343aab020986a68a2012"
         }
       ],
       "max_nonce": 1000000,

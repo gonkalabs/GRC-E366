@@ -19,14 +19,20 @@ The filled intake form is `grc-form.md`.
 
 ## Current result
 
-Two confirmed victims in epoch 366. Recommended restitution uses
-confirmation weight against the parent epoch-group total:
+Revised after GRC archive review. Direct hosts use confirmation weight,
+then the 5% Kimi delegation from `gonka1scskt` to `gonka1gvrrhj`.
 
 | participant | recommended |
 | --- | ---: |
 | `gonka16dgkvx7mh609ntkzknckwaskgq9lcdp86j0skk` | **37,609.316890 GONKA** |
-| `gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv` | **27,571.145288 GONKA** |
-| | **65,180.462178 GONKA** |
+| `gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv` | **26,192.588023 GONKA** |
+| **Direct total** | **63,801.904914 GONKA** |
+| `gonka1gvrrhjmy4w4mayvs2s5l23edj8ertcmtd2v4zr` (indirect, needs a vote) | **8,226.895083 GONKA** |
+| **Total if the indirect row is accepted** | **72,028.799996 GONKA** |
+
+The first draft's 65,180.462178 paid `gonka1scskt` the full CW share and
+missed the delegatee. Paying both that full share and the indirect 5%
+would count 1,378.557264 GONKA twice.
 
 Five other epoch-366 exclusions are `failed_confirmation_poc`. Those are
 ordinary CPoC fails and are not part of this case.
@@ -60,22 +66,25 @@ python3 e366_audit.py --epoch 366 --scan-lo 350 --scan-hi 380
 6. Records governance proposal 96, which raised
    `invalidation_h_threshold` to 40 after epoch 366 had already ended.
 
-Recommended per-host loss:
+Direct per-host loss:
 
 ```
-lost_ngonka =
-  confirmation_weight * fixedEpochReward(366) / rootTotalWeight(366)
-  - actual_rewarded_ngonka
+gross = confirmation_weight * fixedEpochReward(366) / rootTotalWeight(366)
+        - actual_rewarded_ngonka
 ```
+
+`gonka1scskt` then keeps 95% of that gross. The other 5% is added to
+`gonka1gvrrhj`, together with the power-cap delta (reward weight 84,847
+cut to 74,370 once the two STAT hosts left the ACTIVE set).
 
 `fixedEpochReward(E)` is the chain's own
 `initial * exp(decay_rate * (E - genesis))` from
 `inference.params.bitcoin_reward_params`. For epoch 366 that is
 271,585.585902 GONKA. `rootTotalWeight(366)` is 415,488.
 
-The script also prints the start-of-epoch `weight` alternative
-(68,202.960419 GONKA). That overpays relative to how these hosts were
-paid in the neighbor epochs.
+Epoch 366's own `validation_params` store `bad_participant_invalidation_rate`
+= 0.10 and `invalidation_h_threshold` = 4. The live params are the
+post-#96 values and are not the ones that fired.
 
 ## CLI flags
 
@@ -91,7 +100,8 @@ paid in the neighbor epochs.
 
 | file | description |
 | --- | --- |
-| `e366_per_participant.csv` | the two STAT victims and recommended amounts |
+| `e366_per_participant.csv` | the two STAT victims, naive CW share, and delegation-adjusted amount |
+| `e366_indirect.csv` | `gonka1gvrrhj` power-cap delta plus the 5% transfer |
 | `e366_exclusions.csv` | all seven epoch-366 exclusions, with eligibility |
 | `e366_neighbor_epochs.csv` | 365/366/367 actual vs formula check |
 | `e366_summary.json` | totals, scan hits, proposal 96, live SPRT params |

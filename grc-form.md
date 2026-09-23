@@ -23,9 +23,9 @@ chain-only investigation pass. The audit uses public REST from
 | --- | --- |
 | What happened? | After the first devshard settlements, in-epoch SPRT tripped on a small sample and excluded two hosts with reason `statistical_invalidations`. Both received zero epoch-366 reward. |
 | Why might restitution be needed? | Proposal 96 later described this SPRT as unstable on a small sample and changed the params. The two hosts kept serving, passed CPoC, and were paid normally in epochs 365 and 367. The zero payout is from a mainnet-side threshold bug, not a failed CPoC. |
-| Who may be affected? | Exactly two addresses: `gonka16dgkvx7mh609ntkzknckwaskgq9lcdp86j0skk` and `gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv`. |
+| Who may be affected? | Direct: `gonka16dgkvx7mh609ntkzknckwaskgq9lcdp86j0skk` and `gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv`. Indirect, if voted in: `gonka1gvrrhjmy4w4mayvs2s5l23edj8ertcmtd2v4zr`. |
 | What is already confirmed? | Chain exclusions, zero rewards, confirmation weights, inference counts, neighbor-epoch payouts, scan isolation to epoch 366, and proposal 96 timing/params. |
-| What is still uncertain? | Whether GRC prefers confirmation-weight share (recommended, 65,180.462178 GONKA) or start-of-epoch weight share (68,202.960419 GONKA), and whether `gonka1scskt...` should take a haircut because healthy epochs paid them below CW-share. |
+| What is still uncertain? | Whether GRC votes to include the indirect `gonka1gvrrhj` row (8,226.895083 GONKA). The direct amounts are no longer a policy choice: `gonka1scskt` is 95% of CW share because of the Kimi delegation, not a haircut. |
 
 ## 3. Timeline
 
@@ -59,8 +59,8 @@ chain-only investigation pass. The audit uses public REST from
 | Affected model / subgroup, if relevant | Parent epoch group; not model-specific |
 | Affected rounds, CPoCs, or epochs | Epoch 366 only |
 | Baseline state to compare against | Same hosts in epochs 365 and 367; post-#96 SPRT floor ~10% |
-| Estimated affected count | 2 addresses |
-| Estimated restitution exposure | 65,180.462178 GONKA recommended; 68,202.960419 GONKA if GRC uses start-of-epoch weight |
+| Estimated affected count | 2 direct addresses, plus 1 indirect address if voted in |
+| Estimated restitution exposure | Direct, after the 5% delegation: 63,801.904914 GONKA. With the indirect `gonka1gvrrhj` row: 72,028.799996 GONKA. |
 
 ## 6. Eligibility Draft
 
@@ -84,8 +84,7 @@ chain-only investigation pass. The audit uses public REST from
 
 | Case type | Why it is ambiguous |
 | --- | --- |
-| `gonka1scskt...` payout level | Healthy epochs pay below CW-share; GRC may want a haircut |
-| Start-of-epoch weight vs confirmation weight | Weight is closer to Case #3; CW matches observed healthy payouts |
+| `gonka1gvrrhj...` indirect row | First time GRC would pay a host who was not excluded. Cap delta depends on an archive reward estimate. |
 
 ## 7. Evidence Needed
 
@@ -113,10 +112,11 @@ chain-only investigation pass. The audit uses public REST from
 Formula draft:
 
 ```
-eligible_loss_ngonka = max(0, expected_reward_ngonka - actual_rewarded_ngonka)
-
-expected_reward_ngonka =
+gross_ngonka =
   confirmation_weight / root_total_weight * fixed_epoch_reward_ngonka
+
+gonka1scskt keeps 95% of gross. The other 5% is paid to gonka1gvrrhj.
+gonka1gvrrhj also receives (84847 - 74370) / root_total_weight * fixed_epoch_reward.
 ```
 
 Units and rounding:
@@ -126,7 +126,7 @@ Units and rounding:
 | Internal unit | ngonka |
 | Display unit | GONKA |
 | Rounding rule | Integer ngonka, displayed to 6 decimals |
-| Final payout precision | 65,180.462178 GONKA recommended |
+| Final payout precision | Direct 63,801.904914 GONKA. With indirect row 72,028.799996 GONKA. |
 
 ## 9. Required Investigator Output
 
@@ -151,11 +151,11 @@ Units and rounding:
 
 | Question | Decision / link |
 | --- | --- |
-| Confirmation weight or start-of-epoch weight as numerator? | Draft: confirmation weight |
-| Haircut `gonka1scskt...` because healthy epochs paid below CW-share? | Open; default is no |
-| Include any `failed_confirmation_poc` host from epoch 366? | Draft: no |
-| Include later STAT rows if any appear after #96? | Draft: no; this case is epoch 366 only |
-| Paid-pool vs theoretical subsidy? | Draft: theoretical, same as prior GRC cases |
+| Confirmation weight or start-of-epoch weight as numerator? | Confirmation weight, then the chain's 5% delegation transfer |
+| Include `gonka1gvrrhj` indirect loss (power cap + the 5%)? | Open. Recommended yes. First indirect row, so it needs an explicit vote. |
+| Include any `failed_confirmation_poc` host from epoch 366? | No |
+| Include later STAT rows if any appear after #96? | No; this case is epoch 366 only |
+| Paid-pool vs theoretical subsidy? | Theoretical, same as prior GRC cases |
 
 ## 12. Conflict Check
 

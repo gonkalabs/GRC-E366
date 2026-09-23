@@ -2,72 +2,69 @@
 
 Prepared by Mike @ GonkaLabs, for the Gonka Restitution Committee.
 
-Task wording: shortly after devshard settlement was enabled, the old SPRT
-statistical invalidation mechanism excluded two participants from the
-epoch. Both were excluded with reason `statistical_invalidations` and
-received no epoch rewards for 2026-08-20. The operators asked GRC to
-investigate and consider compensation for a mainnet-side system bug.
+Revised after GRC archive-node review. The incident and the eligibility
+rule are unchanged. The amounts now follow the chain reward estimator,
+including the 5% delegation transfer and the 30% power cap.
 
-Source of truth: public chain RPC at
-`http://node2.gonka.ai:8000/chain-api/...`. Every number here is
-regenerated end-to-end by `e366_audit.py` (stdlib only).
+Source of truth for exclusions, weights, and rewards: public chain RPC at
+`http://node2.gonka.ai:8000/chain-api/...`. The power-cap weights 84,847
+to 74,370 come from the reviewer's `estimate_bitcoin_reward` at the
+exclusion block. Public nodes do not serve that historical query. The
+GNK delta from those weights is recomputed here.
 
 ## Summary
 
-The claim is real, isolated to epoch 366, and it matches governance
-proposal 96.
+Compensate the two `statistical_invalidations` hosts. Do not include the
+five `failed_confirmation_poc` exclusions.
 
-Compensate only the two `statistical_invalidations` hosts. Do not include
-the five `failed_confirmation_poc` exclusions from the same epoch.
+`gonka1scskt` does not keep its full confirmation-weight share. The epoch
+366 delegation snapshot moves 5% of its reward weight to `gonka1gvrrhj`.
+That same 5% is the second half of the indirect loss on `gonka1gvrrhj`.
+Pay it once, on the delegatee, or the 1,378.56 is paid twice.
 
-Recommended amount uses the same chain reward formula as prior GRC
-audits, with confirmation weight as the numerator:
+| participant | role | recommended (GONKA) |
+| --- | --- | ---: |
+| `gonka16dgkvx7mh609ntkzknckwaskgq9lcdp86j0skk` | direct, full CW share | **37,609.316890** |
+| `gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv` | direct, 95% of CW share | **26,192.588023** |
+| **Direct total** | | **63,801.904914** |
+| `gonka1gvrrhjmy4w4mayvs2s5l23edj8ertcmtd2v4zr` | indirect: power cap + the 5% | **8,226.895083** |
+| **Total if GRC accepts the indirect row** | | **72,028.799996** |
 
-```
-lost = confirmation_weight * theoretical_epoch_reward / root_total_weight
-```
+The first published draft paid both direct hosts their full CW share,
+**65,180.462178 GONKA**. That overpays `gonka1scskt` by the 5% the chain
+would have transferred, and it misses `gonka1gvrrhj`.
 
-| participant | weight | confirmation_weight | invalid rate | recommended (GONKA) |
-| --- | ---: | ---: | ---: | ---: |
-| `gonka16dgkvx7mh609ntkzknckwaskgq9lcdp86j0skk` | 60,555 | 57,537 | 2.13% | **37,609.316890** |
-| `gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv` | 43,786 | 42,180 | 6.02% | **27,571.145288** |
-| | | | **TOTAL** | **65,180.462178** |
-
-A first draft that used the coins actually paid in epoch 366 as the pool
-(~153,948 GONKA) produced ~38,661 GONKA. That undercounts. Excluded and
-downtime share stays in the denominator. The unpaid remainder goes to
-governance. The chain formula uses the theoretical subsidy,
-271,585.585902 GONKA.
+`gonka1gvrrhj` is the first indirect loss in a GRC case. It belongs in
+the case if the goal is to put epoch 366 back where the chain would have
+been. It needs an explicit vote. Memorandum 6.6 ("pure restitutions based
+on code") points at including it.
 
 ## 1. The bug, on chain
 
 Devshard settlement was enabled around 2026-08-18. Epoch 366 was the
 first full reward window after that change.
 
-The chain runs an in-epoch SPRT on invalid inferences. Before proposal
-96 the threshold was low (`invalidation_h_threshold = 4`). On a small
-early sample, a few invalids can trip the test and mark the host
-INVALID. That writes an `excluded_participants` row with reason
-`statistical_invalidations` and zeroes the epoch reward.
+Neither host had a counted inference until its first devshard settlement.
+`gonka16dgkv` tripped on that first batch: 25 invalid out of 263, LLR
+4.46 against H=4. The chain then wrote `statistical_invalidations` and
+zeroed the epoch reward. Both hosts kept serving. Final invalid rates
+are 2.13% and 6.02%.
 
-Both hosts kept serving after the exclusion. They finished the epoch
-with large inference counts and confirmation weight still close to
-start-of-epoch weight (95.0% and 96.3%). They were paid 0.
+Epoch 366 stores the pre-#96 SPRT params on
+`epoch_group_data.validation_params`:
 
-Full-epoch invalid rates (2.13% and 6.02%) sit below the post-#96
-large-sample floor of about 10%. After the fix, this data would not
-trip SPRT.
+| param | epoch 366 value | meaning |
+| --- | --- | --- |
+| `invalidation_h_threshold` | value 4, exponent 0 | H = 4 |
+| `bad_participant_invalidation_rate` | value 1, exponent -1 | 0.10 |
 
-Proposal 96 title: "Stabilize in-epoch invalid SPRT on small samples".
-It says a few invalids can trip the old SPRT before the epoch has
-enough data. It raised `invalidation_h_threshold` to 40 and set
-`bad_participant_invalidation_rate` to 0.18. After the fix, small
-samples cannot trigger, at least 32 flagged invalids are required, and
-at 500 samples the observed rate must exceed 16%. Those params are live
-on chain now (`value 4, exponent 1` and `value 18, exponent -2`).
+The earlier draft cited the code default 0.20. That was wrong for this
+epoch. The live chain, after proposal 96, is H=40 and bad rate 0.18.
+Under those params neither host's LLR goes above 0 at any point in the
+epoch.
 
-Proposal 96 was submitted 2026-08-20 18:04 UTC, after epoch 366 had
-already ended. The fix did not apply to this epoch.
+Proposal 96, "Stabilize in-epoch invalid SPRT on small samples", was
+submitted 2026-08-20 18:04 UTC, after epoch 366 had already ended.
 
 ## 2. Timeline (UTC)
 
@@ -75,172 +72,151 @@ already ended. The fix did not apply to this epoch.
 | --- | ---: | --- |
 | Epoch 366 PoC start | 5,644,461 | 2026-08-19 17:00:57 |
 | Epoch 366 effective start | 5,644,861 | 2026-08-19 17:36:00 |
+| CPoC round 0 trigger | 5,648,350 | |
+| CPoC round 1 trigger | 5,651,952 | |
 | `gonka16dgkv...` excluded, `statistical_invalidations` | 5,652,213 | 2026-08-20 04:20:17 |
+| Confirmation weight last written | 5,652,233 | CPoC round 1 result |
 | `gonka1scskt...` excluded, `statistical_invalidations` | 5,652,288 | 2026-08-20 04:26:52 |
+| CPoC round 2 trigger | 5,657,937 | after both exclusions |
+| CPoC round 3 trigger | 5,658,826 | after both exclusions |
 | Epoch 366 end | 5,660,251 | 2026-08-20 16:08:48 |
 | Proposal 96 submitted (expedited) | - | 2026-08-20 18:04:19 |
 | Proposal 96 passed | - | 2026-08-21 06:04:19 |
 
-The two exclusions happened about 10.7 hours into a ~22.5 hour epoch,
-which matches "SPRT tripped on a small early sample".
+## 3. Scope
 
-## 3. Detection and scope
+Include:
 
-Eligibility rule used by this audit:
+- `excluded_participants/366` reason `statistical_invalidations`
+- the delegatee who lost the 5% transfer and was pushed through the 30%
+  power cap because those two hosts left the ACTIVE set
 
-- participant is in epoch 366 parent `epoch_group_data`;
-- `excluded_participants/366` lists them with reason
-  `statistical_invalidations`;
-- actual rewarded coins are zero.
+Exclude the five `failed_confirmation_poc` hosts. Their confirmation
+weight is 0. That is a different mechanism.
 
-That rule returns exactly the two addresses in the claim.
+A scan of epochs 350-380 finds `statistical_invalidations` only in 366.
 
-A scan of `excluded_participants` for epochs 350-380 finds
-`statistical_invalidations` only in epoch 366. Isolated incident.
-
-Epoch 366 excluded 7 hosts. The other 5 are a different, ordinary path:
-
-| participant | reason | weight | confirmation_weight | decision |
-| --- | --- | ---: | ---: | --- |
-| `gonka1f0u3y2wneer8zhz3ypw4x54h38cpa0qsy8ts3e` | `failed_confirmation_poc` | 8,420 | 0 | exclude |
-| `gonka1aw77zuy536tufqd56zfq6ev3234u5ftty0zkte` | `failed_confirmation_poc` | 7,772 | 0 | exclude |
-| `gonka1fc9tzt83dgrqswlgay4668cuqjrk7zsqks2vm2` | `failed_confirmation_poc` | 1,869 | 0 | exclude |
-| `gonka1ueylw8hrlp5taqu4dy5zaxy0k82ya4r9trzzwy` | `failed_confirmation_poc` | 954 | 0 | exclude |
-| `gonka1a3pkge3g33v3zdkq7qmycpjwpulms6ejt8z00f` | `failed_confirmation_poc` | 619 | 0 | exclude |
-
-Those five have `confirmation_weight = 0`. That is a CPoC fail, not this
-SPRT bug.
-
-## 4. Compensation methodology
-
-This follows the main correction from prior GRC audits: use the parent
-epoch-group total as the denominator, not a paid-pool or subgroup sum.
-
-Inputs for epoch 366:
+## 4. Direct amounts
 
 ```
 GET /chain-api/productscience/inference/inference/epoch_group_data/366
 model_id = ""
 total_weight = 415488
-member_count = 29
 
 theoretical_epoch_reward =
-  323000 * exp(-0.000475 * (366 - 1))
+  323000 * exp(-0.000475 * 365)
   = 271585.585902 GONKA
 ```
 
-Recommended formula:
+`math.exp` in this script is 271,585,585,901,851 ngonka. The chain value
+cited in review is 271,585,585,901,857 ngonka. The gap is 6 ngonka. It
+does not move any 6-decimal GONKA figure.
+
+Naive confirmation-weight share, before delegation:
 
 ```
-expected_reward_ngonka =
-  confirmation_weight / root_total_weight * theoretical_epoch_reward_ngonka
-
-eligible_loss_ngonka =
-  max(0, expected_reward_ngonka - actual_rewarded_ngonka)
+gonka16dgkv  57537 / 415488 * theoretical = 37609.316890 GONKA
+gonka1scskt  42180 / 415488 * theoretical = 27571.145288 GONKA
 ```
 
-Worked examples:
+`gonka1scskt` delegates Kimi to `gonka1gvrrhj`. The current
+`poc_delegation` record still shows that pair. Had `gonka1scskt` stayed
+ACTIVE, 5% of its reward weight would have been transferred:
 
 ```
-gonka16dgkv...
-  57537 / 415488 * 271585.585902 = 37609.316890 GONKA
-
-gonka1scskt...
-  42180 / 415488 * 271585.585902 = 27571.145288 GONKA
+transfer_weight = 42180 * 0.05 = 2109
+kept_weight     = 42180 - 2109 = 40071
+kept_reward     = 40071 / 415488 * theoretical = 26192.588023 GONKA
 ```
 
-Why confirmation weight, not start-of-epoch weight:
+That is the chain's own `estimate_bitcoin_reward` for `gonka1scskt` at
+block 5,652,287, one block before the exclusion.
 
-- Case #3 used start-of-epoch weight because that victim failed CPoC,
-  so confirmation weight was already destroyed.
-- These two hosts passed CPoC. Confirmation weight is the numerator the
-  chain uses for healthy payouts.
-- For `gonka16dgkv...`, epochs 365 and 367 match confirmation-weight
-  share exactly.
+The same rule matches the neighbor epochs at 4 decimals:
 
-| method | `gonka16dgkv...` | `gonka1scskt...` | total |
-| --- | ---: | ---: | ---: |
-| confirmation_weight * theoretical / 415,488 (recommended) | 37,609.316890 | 27,571.145288 | 65,180.462178 |
-| weight * theoretical / 415,488 | 39,582.046062 | 28,620.914357 | 68,202.960419 |
-| weight * actual paid pool / 415,488 (first draft) | ~22,437 | ~16,224 | ~38,661 |
+| epoch | what the chain did | actual / CW-share |
+| ---: | --- | ---: |
+| 365 | same 5% Kimi transfer | 0.9500 |
+| 366 | excluded, reward 0 | 0 |
+| 367 | 15% `no_participation_penalty` | 0.8500 |
 
-The first draft used the coins actually paid in epoch 366
-(153,948.045686 GONKA) as the pool. That is not how the chain pays.
+`gonka16dgkv` has no such transfer. Epochs 365 and 367 pay it at exactly
+the confirmation-weight share. Its epoch 366 amount stays
+**37,609.316890 GONKA**.
 
-## 5. Neighbor-epoch sanity
+Confirmation-weight caveat: both hosts' stored CW was last set at block
+5,652,233 by CPoC round 1. Rounds 2 and 3 ran after the exclusions and
+did not update them. Final CW is a slight upper bound on what a full
+healthy epoch would have confirmed.
 
-| epoch | address | actual GONKA | CW-share GONKA | actual minus CW-share |
-| ---: | --- | ---: | ---: | ---: |
-| 365 | `gonka16dgkv...` | 30,439.746651 | 30,439.746651 | 0.000000 |
-| 365 | `gonka1scskt...` | 20,769.037248 | 21,861.950889 | -1,092.913641 |
-| 366 | `gonka16dgkv...` | 0.000000 | 37,609.316890 | -37,609.316890 |
-| 366 | `gonka1scskt...` | 0.000000 | 27,571.145288 | -27,571.145288 |
-| 367 | `gonka16dgkv...` | 50,484.616744 | 50,484.616744 | 0.000000 |
-| 367 | `gonka1scskt...` | 29,034.990116 | 34,158.329473 | -5,123.339357 |
+## 5. Indirect amount: `gonka1gvrrhj`
 
-`gonka16dgkv...` is a clean match. `gonka1scskt...` usually lands below
-confirmation-weight share in healthy epochs (possible downtime or
-capping). Paying the chain formula is still the consistent GRC method.
-A haircut on `gonka1scskt...` is a policy choice, not a math fix.
+Two effects, both caused by the exclusions.
 
-Both hosts were paid normally in 365 and 367. Epoch 366 is the hole.
+Power cap. The 30% cap is checked only against ACTIVE hosts. Removing
+the two STAT hosts took about 100k weight out of that base, so
+`gonka1gvrrhj` went from 23.7% to 32.8% of active weight. The chain cut
+its reward weight from 84,847 to 74,370.
 
-## 6. Upstream / governance reference
+```
+(84847 - 74370) / 415488 * theoretical = 6848.337818 GONKA
+```
 
-On-chain proposal 96, proposer
-`gonka1y2a9p56kv044327uycmqdexl7zs82fs5ryv5le`, status PASSED,
-expedited.
+If either STAT host had stayed ACTIVE, the cap would not have applied.
 
-It changes validation params:
+Delegation inflow. `gonka1gvrrhj` is the host that should have received
+the 2,109 weight from section 4.
 
-- `invalidation_h_threshold`: 4 -> 40
-- `bad_participant_invalidation_rate`: 0.20 -> 0.18
-- downtime SPRT turned off (`downtime_h_threshold` set unused)
+```
+2109 / 415488 * theoretical = 1378.557264 GONKA
+```
 
-The proposal text is the official admission that in-epoch SPRT was
-unstable on a small sample. That is this incident.
+```
+6848.337818 + 1378.557264 = 8226.895083 GONKA
+```
 
-The live chain already has the new params. No further code change is
-needed to stop a repeat. Restitution is only for the epoch that already
-closed under the old threshold.
+`estimate_bitcoin_reward` for `gonka1gvrrhj` drops in block 5,652,288,
+the same block `gonka1scskt` was excluded. Its actual epoch payout was
+50,502.651191 GONKA, not zero. This row is only the delta, not a second
+full reward.
+
+Do not add this 1,378.557264 on top of the old 27,571.145288 figure for
+`gonka1scskt`. The 26,192.588023 figure already removed it.
+
+## 6. What this does not pay
+
+Going INVALID also cost the two direct hosts:
+
+| host | work coins | collateral slash | reputation |
+| --- | ---: | ---: | --- |
+| `gonka16dgkv...` | 1.193 GONKA | 40,692 ngonka | reset to 0 |
+| `gonka1scskt...` | 0.657 GONKA | 29,423 ngonka | reset to 0 |
+
+Those amounts are tiny next to the fixed reward and are not in the
+totals above. `epoch_performance_summary` shows `earned_coins = 0` for
+both, which is consistent with the work coins being wiped rather than
+paid.
 
 ## 7. Caveats
 
 What the report claims:
 
-- Epoch 366 has exactly two `statistical_invalidations` exclusions, and
-  they are the two addresses in the claim. This is verifiable from
-  `excluded_participants/366`.
-- Those two hosts passed CPoC, kept serving, and received 0 reward.
-- A 350-380 scan finds this reason only in epoch 366.
-- Proposal 96 is the on-chain fix and landed after epoch 366 ended.
-- Recommended amounts are the linear chain formula using confirmation
-  weight and parent `total_weight`.
+- Exactly two `statistical_invalidations` rows in epoch 366, and they
+  are the two addresses in the claim.
+- Those two passed CPoC, kept serving, and received 0 reward.
+- `gonka1scskt`'s chain-exact direct loss is 95% of its CW share.
+- `gonka1gvrrhj` lost the power-cap delta plus that 5%, measured at the
+  exclusion block.
+- Proposal 96 is the fix and landed after epoch 366 ended.
+- Epoch 366 on-chain bad rate was 0.10, H was 4.
 
 What the report does not claim:
 
-- That the five `failed_confirmation_poc` hosts are part of this bug.
-- That `gonka1scskt...` would have received the full confirmation-weight
-  share if they had not been excluded. Neighbor epochs say they often
-  receive less.
-- That inference-settlement side effects beyond the fixed epoch reward
-  are included. This case pays the zeroed epoch reward only.
-- That every future `statistical_invalidations` row is automatically
-  this bug. After proposal 96 the threshold is different.
-
-## 8. Files
-
-```
-GRC-E366/
-├── e366_audit.py
-├── README.md
-├── RESTITUTION_REPORT.md
-├── grc-form.md
-└── output/
-    ├── e366_per_participant.csv
-    ├── e366_exclusions.csv
-    ├── e366_neighbor_epochs.csv
-    ├── e366_summary.json
-    ├── e366_log.txt
-    └── raw_chain/
-```
+- That the five `failed_confirmation_poc` hosts are this bug.
+- That public REST can replay `estimate_bitcoin_reward` at height
+  5,652,287. The cap weights are from the archive review. The script
+  turns those weights into GNK with the same formula as the direct rows.
+- That final stored CW is a full-epoch healthy CW. Rounds 2 and 3 did
+  not update it.
+- That work coins, the collateral slash, or the reputation reset are
+  inside the recommended total.

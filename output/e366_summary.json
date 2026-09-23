@@ -1,8 +1,7 @@
 {
   "epoch": 366,
   "denominator_mode": "root_total_weight",
-  "restitution_policy": "statistical_invalidations_only",
-  "recommended_numerator": "confirmation_weight",
+  "restitution_policy": "statistical_invalidations_plus_indirect_delegatee",
   "root_total_weight": 415488,
   "member_count": 29,
   "theoretical_reward_ngonka": 271585585901851,
@@ -29,10 +28,28 @@
   "excluded_count": 7,
   "stat_invalidation_count": 2,
   "failed_confirmation_poc_count": 5,
-  "recommended_total_ngonka": 65180462177908,
-  "recommended_total_gonka": "65180.462178",
+  "recommended_numerator": "confirmation_weight_after_delegation",
+  "naive_cw_total_ngonka": 65180462177908,
+  "naive_cw_total_gonka": "65180.462178",
+  "direct_total_ngonka": 63801904913518,
+  "direct_total_gonka": "63801.904914",
+  "indirect_total_ngonka": 8226895082796,
+  "indirect_total_gonka": "8226.895083",
+  "recommended_total_ngonka": 72028799996314,
+  "recommended_total_gonka": "72028.799996",
   "weight_alternative_total_ngonka": 68202960419038,
   "weight_alternative_total_gonka": "68202.960419",
+  "epoch_validation_params": {
+    "invalidation_h_threshold": {
+      "value": "4",
+      "exponent": 0
+    },
+    "bad_participant_invalidation_rate": {
+      "value": "1",
+      "exponent": -1
+    },
+    "note": "Frozen on epoch_group_data/366. Pre-#96 on-chain bad rate is 0.10, not the 0.20 code default."
+  },
   "proposal": {
     "id": "96",
     "title": "Stabilize in-epoch invalid SPRT on small samples",
@@ -60,7 +77,7 @@
     },
     {
       "address": "gonka1scskt6wpnjnumsah6kjphmdu87vjgvcxmn4rxv",
-      "recommended_lost_gonka": "27571.145288"
+      "recommended_lost_gonka": "26192.588023"
     }
   ],
   "excluded_not_this_bug": [
@@ -69,5 +86,23 @@
     "gonka1ueylw8hrlp5taqu4dy5zaxy0k82ya4r9trzzwy",
     "gonka1aw77zuy536tufqd56zfq6ev3234u5ftty0zkte",
     "gonka1a3pkge3g33v3zdkq7qmycpjwpulms6ejt8z00f"
-  ]
+  ],
+  "indirect": {
+    "address": "gonka1gvrrhjmy4w4mayvs2s5l23edj8ertcmtd2v4zr",
+    "role": "indirect_delegatee_and_power_cap",
+    "eligible_if": "GRC accepts indirect loss",
+    "weight": 107037,
+    "confirmation_weight": 84847,
+    "actual_rewarded_ngonka": 50502651190766,
+    "actual_rewarded_gonka": "50502.651191",
+    "cap_weight_before": 84847,
+    "cap_weight_after": 74370,
+    "cap_loss_ngonka": 6848337818406,
+    "cap_loss_gonka": "6848.337818",
+    "delegation_in_weight": 2109,
+    "delegation_in_ngonka": 1378557264390,
+    "delegation_in_gonka": "1378.557264",
+    "recommended_lost_ngonka": 8226895082796,
+    "recommended_lost_gonka": "8226.895083"
+  }
 }
