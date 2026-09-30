@@ -162,7 +162,7 @@ Units and rounding:
 | Question | Answer |
 | --- | --- |
 | Does the proposed investigator benefit from the case? | No |
-| Does any proposed validator benefit from the case? | Unknown until validators are named |
+| Does any proposed validator benefit from the case? | No. No conflicts among assigned developers. |
 | Did any assigned person work on the faulty component? | No |
 | Are any conflicts disclosed and accepted by GRC? | No |
 
@@ -184,6 +184,6 @@ Units and rounding:
 | Role | Name / handle | Date (UTC) | Notes |
 | --- | --- | --- | --- |
 | Investigator | Mike @ GonkaLabs | 2026-09-11 | Chain-only audit in this repo |
-| Validator | | | |
+| Validator | @v****n (GRC coordinator) | 2026-09-23 | Independent archive-node settlement replay; results adopted in revision `337bc05` |
 
 Expected completion date: 2026-09-14
